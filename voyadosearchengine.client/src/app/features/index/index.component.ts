@@ -1,13 +1,6 @@
 import { Component } from '@angular/core';
 import { SearchService } from '../../services/search.service';
-import { EngineResult } from '../../services/search.models';
-
-interface EngineState {
-  name: string;
-  loading: boolean;
-  result?: EngineResult;
-  error?: string;
-}
+import { EngineResult, EngineState } from '../../services/search.models';
 
 @Component({
   selector: 'app-index',
@@ -25,23 +18,44 @@ export class IndexComponent {
 
     this.engineStates = engines.map(engine => ({
       name: engine,
-      loading: true
+      loading: true,
+      totalHits: 0,
+      wordResults: {},
+      hasErrors: false,
+      allFailed: false
     }));
-
-    return;
 
     engines.forEach((engine, index) => {
       this.searchService.search(query, engine).subscribe({
         next: (result: EngineResult) => {
-          this.engineStates[index].loading = false;
-          this.engineStates[index].result = result;
+          console.log("Success: ", result);
+
+          const hasErrors = Object.values(result.wordResults).some(wr => wr.errorMessage);
+          const allFailed = Object.values(result.wordResults).every(wr => wr.errorMessage);
+
+          this.engineStates[index] = {
+            ...result,
+            loading: false,
+            hasErrors,
+            allFailed
+          };
         },
         error: (err: Error) => {
           console.error(`Error fetching results from ${engine}: `, err);
           this.engineStates[index].loading = false;
-          this.engineStates[index].error = `Error fetching results from ${engine}`;
+          this.engineStates[index].hasErrors = true;
+          this.engineStates[index].allFailed = true;
         }
       });
     });
+  }
+
+  formatNumber(num: number): string {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(2).replace(/\.?0+$/, '') + 'K';
+    }
+    return num.toString();
   }
 }

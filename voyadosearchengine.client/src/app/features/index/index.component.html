@@ -1,5 +1,6 @@
 <div class="card top-card">
   <h1>Search</h1>
+  <div>For multiple words separate them by an empty space</div>
   <app-search-bar (search)="handleSearch($event)"></app-search-bar>
 </div>
 
@@ -9,12 +10,18 @@
 
     <div class="loader" *ngIf="state.loading"></div>
 
-    <div class="error" *ngIf="state.error">
-      {{ state.error }}
-    </div>
+    <div class="results" *ngIf="!state.loading">
+      <div *ngIf="!state.allFailed" class="total-hits">
+        Total hits: {{ formatNumber(state.totalHits) }}
+      </div>
 
-    <div class="results" *ngIf="state.result && !state.loading">
-      <p>Hits: {{ state.result.totalHits }}</p>
+      <div *ngIf="state.hasErrors" class="word-errors">
+        <div *ngFor="let entry of state.wordResults | keyvalue" class="word-error-item">
+          <ng-container *ngIf="entry.value.errorMessage">
+            {{ entry.key }} <span class="bold error">Failed</span>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </div>
 </div>

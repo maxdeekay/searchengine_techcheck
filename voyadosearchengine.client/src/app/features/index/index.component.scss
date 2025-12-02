@@ -38,19 +38,22 @@
 }
 
 .card {
-    background-color: $color-surface;
-    width: fit-content;
-    padding: 10px 30px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 2px;
-    min-width: 300px;
-    min-height: 150px;
-    position: relative;
+  background-color: $color-surface;
+  width: fit-content;
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+  min-width: 300px;
+  min-height: 150px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .top-card {
     width: auto;
+
+    div { margin-bottom: 10px; }
 }
 
 .cards-container {

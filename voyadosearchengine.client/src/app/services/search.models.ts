@@ -13,3 +13,9 @@ export interface EngineResult {
   totalHits: number;
   wordResults: { [word: string]: WordResult };
 }
+
+export interface EngineState extends EngineResult {
+  loading: boolean;
+  hasErrors: boolean;
+  allFailed: boolean;
+}

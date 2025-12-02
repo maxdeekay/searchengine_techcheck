@@ -15,7 +15,7 @@ namespace VoyadoSearchEngine.Server.Engines
 
         public async Task<int> SearchAsync(string word)
         {
-            return 0;
+            throw new Exception("Not yet implemented");
 
             var page = await _browser.NewPageAsync();
             await page.GotoAsync($"https://www.bing.com/search?q={Uri.EscapeDataString(word)}");

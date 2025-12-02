@@ -6,6 +6,7 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   height: 100%;
+  font-size: 14px;
   background: $color-background-primary;
   color: $color-text;
 }
@@ -25,3 +26,8 @@ h3 { font-size: 16px; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.bold { font-weight: 600; }
+.success { color: $color-success; }
+.error { color: $color-error; }
+.warning { color: $color-warning; }
