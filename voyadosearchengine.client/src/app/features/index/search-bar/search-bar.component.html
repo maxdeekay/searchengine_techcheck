@@ -1,0 +1,16 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="search-form">
+  <div class="input-and-checkboxes">
+    <input type="text"
+           formControlName="query"
+           class="search-input" />
+
+    <div class="engine-checkboxes">
+      <label *ngFor="let engine of engines; let i = index">
+        <input type="checkbox" [formControl]="selectedEnginesControls[i]" />
+        {{ engine }}
+      </label>
+    </div>
+  </div>
+
+  <button type="submit">Search</button>
+</form>

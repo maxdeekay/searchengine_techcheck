@@ -1,0 +1,24 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider/VSCode
+.vscode/
+.idea/
+
+# Build results
+**/bin/
+**/obj/
+
+# Node / Angular
+voyadosearchengine.client/node_modules/
+voyadosearchengine.client/dist/
+voyadosearchengine.client/out-tsc/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+*.log

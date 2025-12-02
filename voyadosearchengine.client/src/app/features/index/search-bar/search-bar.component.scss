@@ -1,0 +1,68 @@
+@use "../../../../styles/variables" as *;
+
+.search-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  .input-and-checkboxes {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+  }
+
+  input[type=text] {
+    border: 1px solid darken($color-background-primary, 30%);
+    outline: none;
+    border-radius: 2px;
+    padding: 5px 10px;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    color: $color-text;
+    width: 300px;
+  }
+
+  .engine-checkboxes {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+
+      label {
+          cursor: pointer;
+          width: fit-content;
+
+          input[type=checkbox] {
+              cursor: pointer;
+          }
+      }
+  }
+
+  input[type=text]:focus {
+    outline: 1px solid $color-turqoise;
+    outline-offset: -1px;
+  }
+
+  button {
+    border: none;
+    outline: none;
+    padding: 5px 20px;
+    font-size: 16px;
+    border-radius: 2px;
+    height: 36px;
+  }
+
+  button:hover {
+    cursor: pointer;
+  }
+
+  button[type=submit] {
+    background-color: $color-turqoise;
+    color: white;
+    border: 1px solid $color-turqoise;
+  }
+
+  button[type=submit]:hover {
+    background-color: $color-surface;
+    color: $color-turqoise;
+  }
+}

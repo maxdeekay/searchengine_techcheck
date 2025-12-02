@@ -1,0 +1,20 @@
+<div class="card top-card">
+  <h1>Search</h1>
+  <app-search-bar (search)="handleSearch($event)"></app-search-bar>
+</div>
+
+<div class="cards-container">
+  <div class="card" *ngFor="let state of engineStates">
+    <h2>{{ state.name }}</h2>
+
+    <div class="loader" *ngIf="state.loading"></div>
+
+    <div class="error" *ngIf="state.error">
+      {{ state.error }}
+    </div>
+
+    <div class="results" *ngIf="state.result && !state.loading">
+      <p>Hits: {{ state.result.totalHits }}</p>
+    </div>
+  </div>
+</div>

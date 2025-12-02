@@ -1,0 +1,6 @@
+@VoyadoSearchEngine.Server_HostAddress = http://localhost:5112
+
+GET {{VoyadoSearchEngine.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
