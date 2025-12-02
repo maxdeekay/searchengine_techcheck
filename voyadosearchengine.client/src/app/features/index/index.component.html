@@ -15,11 +15,12 @@
         Total hits: {{ formatNumber(state.totalHits) }}
       </div>
 
-      <div *ngIf="state.hasErrors" class="word-errors">
-        <div *ngFor="let entry of state.wordResults | keyvalue" class="word-error-item">
-          <ng-container *ngIf="entry.value.errorMessage">
-            {{ entry.key }} <span class="bold error">Failed</span>
-          </ng-container>
+      <div class="word-states">
+        <div *ngFor="let entry of state.wordResults | keyvalue" class="word-state-item">
+            {{ entry.key }}
+
+            <span class="bold error" *ngIf="entry.value.errorMessage">Failed</span>
+            <span class="bold success" *ngIf="!entry.value.errorMessage">Success</span>
         </div>
       </div>
     </div>
