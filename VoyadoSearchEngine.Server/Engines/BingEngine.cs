@@ -13,7 +13,7 @@ namespace VoyadoSearchEngine.Server.Engines
 
         public string Name => "Bing";
 
-        // NOTE: This Playwright setup times out about 50% of the time but left it in for display purposes
+        // NOTE: This Playwright setup times out and fails about 50% of the time but left it in for display purposes
         public async Task<int> SearchAsync(string word)
         {
             if (string.IsNullOrWhiteSpace(word))

@@ -40,8 +40,6 @@ export class IndexComponent implements OnInit {
     engines.forEach((engine, index) => {
       this.searchService.search(query, engine).subscribe({
         next: (result: EngineResult) => {
-          console.log("Result: ", result);
-
           const hasErrors = Object.values(result.wordResults).some(wr => wr.errorMessage);
           const allFailed = Object.values(result.wordResults).every(wr => wr.errorMessage);
 

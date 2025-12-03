@@ -30,17 +30,20 @@ export class SearchBarComponent {
     return (this.form.get("selectedEngines") as FormArray).controls as FormControl[];
   }
 
-  onSubmit() {
-    const query = this.form.get("query")?.value.trim();
-    if (!query) return;
+  get isFormValid(): boolean {
+    const query = this.form.get("query")?.value || "";
+    const selectedEnginesArray = this.form.get("selectedEngines") as FormArray;
+    const hasSelectedEngine = this.engines.some((_, i) => selectedEnginesArray.at(i).value);
 
+    return query.trim().length >= 3 && hasSelectedEngine;
+  }
+
+  onSubmit() {
+    if (!this.isFormValid) return;
+
+    const query = this.form.get("query")?.value.trim();
     const selectedEnginesArray = this.form.get("selectedEngines") as FormArray;
     const selectedEngines = this.engines.filter((_, i) => selectedEnginesArray.at(i).value);
-
-    if (selectedEngines.length === 0) return;
-
-    console.log("Search: ", query);
-    console.log("Engines: ", selectedEngines);
 
     this.search.emit({ query, engines: selectedEngines });
   }

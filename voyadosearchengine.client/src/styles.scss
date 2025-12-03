@@ -4,7 +4,6 @@
 html, body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
   height: 100%;
   font-size: 14px;
   background: $color-background-primary;
@@ -13,6 +12,7 @@ html, body {
 
 * {
   font-family: "Open Sans", sans-serif !important;
+  box-sizing: border-box;
 }
 
 h1, h2, h3 {

@@ -1,3 +1,4 @@
+@use "sass:color";
 @use "../../../../styles/variables" as *;
 
 .search-form {
@@ -6,13 +7,13 @@
   gap: 10px;
 
   .input-and-checkboxes {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
   input[type=text] {
-    border: 1px solid darken($color-background-primary, 30%);
+    border: 1px solid color.scale($color-background-primary, $lightness: -30%);
     outline: none;
     border-radius: 2px;
     padding: 5px 10px;
@@ -23,18 +24,18 @@
   }
 
   .engine-checkboxes {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
 
-      label {
-          cursor: pointer;
-          width: fit-content;
+    label {
+      cursor: pointer;
+      width: fit-content;
 
-          input[type=checkbox] {
-              cursor: pointer;
-          }
+      input[type=checkbox] {
+        cursor: pointer;
       }
+    }
   }
 
   input[type=text]:focus {
@@ -43,26 +44,38 @@
   }
 
   button {
-    border: none;
+    background-color: $color-turqoise;
+    border: 1px solid $color-turqoise;
+    color: white;
     outline: none;
     padding: 5px 20px;
     font-size: 16px;
     border-radius: 2px;
     height: 36px;
-  }
 
-  button:hover {
-    cursor: pointer;
-  }
+    &:not(:disabled):hover {
+      background-color: $color-surface;
+      color: $color-turqoise;
+    }
 
-  button[type=submit] {
-    background-color: $color-turqoise;
-    color: white;
-    border: 1px solid $color-turqoise;
-  }
+    &:not(:disabled):hover {
+      cursor: pointer;
+    }
 
-  button[type=submit]:hover {
-    background-color: $color-surface;
-    color: $color-turqoise;
+    &:disabled {
+      opacity: 0.6;
+      background-color: #cccccc;
+      border-color: #cccccc;
+      color: #666666;
+    }
+  }
+}
+
+@media (width <=520px) {
+  .search-form {
+    flex-direction: column;
+
+    .input-and-checkboxes { width: 100%; flex-direction: column-reverse; }
+    input[type=text], button { width: 100%; }
   }
 }

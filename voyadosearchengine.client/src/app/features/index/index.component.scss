@@ -39,12 +39,12 @@
 
 .card {
   background-color: $color-surface;
-  width: fit-content;
   padding: 30px;
   display: flex;
   flex-direction: column;
+  flex: 1 1 250px;
   border-radius: 2px;
-  min-width: 300px;
+  min-width: 250px;
   min-height: 150px;
   position: relative;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -52,6 +52,7 @@
 
 .top-card {
     width: auto;
+    max-width: 930px;
 
     div { margin-bottom: 10px; }
 }
@@ -61,6 +62,7 @@
     flex-wrap: wrap;
     gap: 15px;
     margin-top: 15px;
+    max-width: 930px;
 }
 
 .total-hits { margin-bottom: 10px; }
