@@ -12,6 +12,11 @@ namespace VoyadoSearchEngine.Server.Services
             _engines = engines;
         }
 
+        public IEnumerable<string> GetEngines()
+        {
+            return _engines.Select(e => e.Name);
+        }
+
         public async Task<EngineResult> SearchAsync(string query, string engine)
         {
             string[] words = query.Split(" ");

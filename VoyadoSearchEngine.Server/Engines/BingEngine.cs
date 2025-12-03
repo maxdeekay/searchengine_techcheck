@@ -13,6 +13,7 @@ namespace VoyadoSearchEngine.Server.Engines
 
         public string Name => "Bing";
 
+        // NOTE: This Playwright setup times out about 50% of the time but left it in for display purposes
         public async Task<int> SearchAsync(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
@@ -22,6 +23,7 @@ namespace VoyadoSearchEngine.Server.Engines
             
             try
             {
+                // Navigate to Bing search results page and wait until page is fully loaded before continuing
                 await page.GotoAsync(
                     $"https://www.bing.com/search?q={Uri.EscapeDataString(word)}",
                     new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle }
@@ -29,6 +31,8 @@ namespace VoyadoSearchEngine.Server.Engines
 
                 var element = page.Locator("span.sb_count");
 
+                // Wait for element to be visible on the page
+                // Can sometimes timeout because Playwright considers it "not visible" eg. off screen/hidden etc.
                 await element.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
 
                 if (element == null)
@@ -44,6 +48,7 @@ namespace VoyadoSearchEngine.Server.Engines
             }
             finally
             {
+                // Finally close the page to free up resources
                 await page.CloseAsync();
             }
         }

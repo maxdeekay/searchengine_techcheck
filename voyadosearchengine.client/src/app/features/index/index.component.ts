@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search.service';
 import { EngineResult, EngineState } from '../../services/search.models';
 
@@ -8,10 +8,22 @@ import { EngineResult, EngineState } from '../../services/search.models';
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
-export class IndexComponent {
+export class IndexComponent implements OnInit {
   engineStates: EngineState[] = [];
+  availableEngines: string[] = [];
 
   constructor(private searchService: SearchService) { }
+
+  ngOnInit() {
+    this.searchService.getEngines().subscribe({
+      next: (engines) => {
+        this.availableEngines = engines;
+      },
+      error: (err: Error) => {
+        console.error("Error fetching engines: ", err);
+      }
+    });
+  }
 
   handleSearch(searchData: { query: string; engines: string[] }) {
     const { query, engines } = searchData;
@@ -28,7 +40,7 @@ export class IndexComponent {
     engines.forEach((engine, index) => {
       this.searchService.search(query, engine).subscribe({
         next: (result: EngineResult) => {
-          console.log("Success: ", result);
+          console.log("Result: ", result);
 
           const hasErrors = Object.values(result.wordResults).some(wr => wr.errorMessage);
           const allFailed = Object.values(result.wordResults).every(wr => wr.errorMessage);

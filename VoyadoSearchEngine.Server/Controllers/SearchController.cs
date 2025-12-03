@@ -15,7 +15,14 @@ namespace VoyadoSearchEngine.Server.Controllers
             _searchService = searchService;
         }
 
-        [HttpPost]
+        [HttpGet("engines")]
+        public IActionResult Get()
+        {
+            var engines = _searchService.GetEngines();
+            return Ok(engines);
+        }
+
+        [HttpPost("search")]
         public async Task<IActionResult> Search([FromBody] SearchRequest request)
         {
             if (string.IsNullOrWhiteSpace(request.Query))

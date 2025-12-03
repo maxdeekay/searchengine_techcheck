@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, Input, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 
 @Component({
@@ -9,18 +9,20 @@ import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 })
 export class SearchBarComponent {
   @Output() search = new EventEmitter<{ query: string; engines: string[] }>();
+  @Input() engines: string[] = [];
 
   form: FormGroup;
-
-  engines = ["Google", "Bing", "Wikidata"];
 
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       query: [""],
       selectedEngines: this.fb.array([])
     });
+  }
 
+  ngOnChanges() {
     const selectedEnginesArray = this.form.get("selectedEngines") as FormArray;
+    selectedEnginesArray.clear();
     this.engines.forEach(() => selectedEnginesArray.push(this.fb.control(true)));
   }
 

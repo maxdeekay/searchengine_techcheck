@@ -11,8 +11,12 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
+  getEngines(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/engines`);
+  }
+
   search(query: string, engine: string): Observable<EngineResult> {
     const body: SearchRequest = { query, engine };
-    return this.http.post<EngineResult>(this.apiUrl, body);
+    return this.http.post<EngineResult>(`${this.apiUrl}/search`, body);
   }
 }

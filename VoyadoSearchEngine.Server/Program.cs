@@ -28,10 +28,10 @@ builder.Services.AddSingleton<IBrowser>(sp =>
     }).GetAwaiter().GetResult();
 });
 
-// Search engines
+// Search engines & service
 builder.Services.AddScoped<ISearchEngine, BingEngine>();
 builder.Services.AddScoped<ISearchEngine, WikidataEngine>();
-builder.Services.AddScoped<ISearchEngine, GoogleEngine>();
+builder.Services.AddScoped<ISearchEngine, OpenLibraryEngine>();
 
 builder.Services.AddScoped<ISearchService, SearchService>();
 
