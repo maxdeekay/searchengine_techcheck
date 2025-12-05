@@ -1,30 +1,37 @@
-<div class="card top-card">
-  <h1>Search</h1>
-  <div>For multiple words separate them by an empty space</div>
+<div class="container">
+  <div class="card top-card">
+    <h1>Search</h1>
+    <div>For multiple words separate them by an empty space</div>
 
-  <app-search-bar
-    [engines]="availableEngines"
-    (search)="handleSearch($event)"
-  ></app-search-bar>
-</div>
+    <app-search-bar [engines]="availableEngines"
+                    (search)="handleSearch($event)"></app-search-bar>
+  </div>
 
-<div class="cards-container">
-  <div class="card" *ngFor="let state of engineStates">
-    <h2>{{ state.name }}</h2>
+  <div class="card header-card">
+    <span class="bold">Showing total search hits for the words</span>
+    <span class="bold word">word1</span>
+    <span class="bold word">word2</span>
+    <span class="bold word">word3</span>
+  </div>
 
-    <div class="loader" *ngIf="state.loading"></div>
+  <div class="cards-container">
+    <div class="card" *ngFor="let state of engineStates">
+      <h2>{{ state.name }}</h2>
 
-    <div class="results" *ngIf="!state.loading">
-      <div *ngIf="!state.allFailed" class="total-hits">
-        Total hits: {{ formatNumber(state.totalHits) }}
-      </div>
+      <div class="loader" *ngIf="state.loading"></div>
 
-      <div class="word-states">
-        <div *ngFor="let entry of state.wordResults | keyvalue" class="word-state-item">
+      <div class="results" *ngIf="!state.loading">
+        <div *ngIf="!state.allFailed" class="total-hits">
+          Total hits: {{ formatNumber(state.totalHits) }}
+        </div>
+
+        <div class="word-states">
+          <div *ngFor="let entry of state.wordResults | keyvalue" class="word-state-item">
             {{ entry.key }}
 
             <span class="bold error" *ngIf="entry.value.errorMessage">Failed</span>
             <span class="bold success" *ngIf="!entry.value.errorMessage">Success</span>
+          </div>
         </div>
       </div>
     </div>

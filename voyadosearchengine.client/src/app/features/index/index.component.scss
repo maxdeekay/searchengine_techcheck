@@ -1,48 +1,11 @@
 @use "../../../styles/variables" as *;
 
-.loader {
-  width: 50px;
-  aspect-ratio: 1;
-  display: grid;
-  border: 4px solid #0000;
-  border-radius: 50%;
-  border-color: #ccc #0000;
-  animation: l16 2s infinite linear;
-  margin: 0 auto;
-}
-
-.loader::before,
-.loader::after {
-  content: "";
-  grid-area: 1/1;
-  margin: 2px;
-  border: inherit;
-  border-radius: 50%;
-}
-
-.loader::before {
-  border-color: $color-turqoise #0000;
-  animation: inherit;
-  animation-duration: 1s;
-  animation-direction: reverse;
-}
-
-.loader::after {
-  margin: 8px;
-}
-
-@keyframes l16 {
-  100% {
-    transform: rotate(1turn)
-  }
-}
-
 .card {
   background-color: $color-surface;
   padding: 30px;
   display: flex;
   flex-direction: column;
-  flex: 1 1 250px;
+  flex: 1;
   border-radius: 2px;
   min-width: 250px;
   min-height: 150px;
@@ -51,18 +14,40 @@
 }
 
 .top-card {
-    width: auto;
-    max-width: 930px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     div { margin-bottom: 10px; }
+}
+
+.header-card {
+  background-color: $color-turqoise;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  span {
+      height: fit-content;
+  }
+
+  .word {
+      font-size: 26px;
+  }
 }
 
 .cards-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
-    margin-top: 15px;
+    gap: 5px;
     max-width: 930px;
 }
 
 .total-hits { margin-bottom: 10px; }
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
