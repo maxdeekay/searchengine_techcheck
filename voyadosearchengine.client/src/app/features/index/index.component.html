@@ -7,6 +7,8 @@
       [engines]="availableEngines"
       (search)="handleSearch($event)"
     ></app-search-bar>
+
+    <div class="api-not-ready" *ngIf="availableEngines.length == 0">The API has not loaded yet - please give it a moment</div>
   </div>
 
   <div class="card header-card" *ngIf="searchMade">
