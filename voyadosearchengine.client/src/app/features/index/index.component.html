@@ -8,6 +8,7 @@
       (search)="handleSearch($event)"
     ></app-search-bar>
 
+    <!-- Only because the app will be tested locally -->
     <div class="api-not-ready" *ngIf="availableEngines.length == 0">The API has not loaded yet - please give it a moment</div>
   </div>
 
