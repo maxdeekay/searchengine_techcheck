@@ -3,70 +3,72 @@
 
 .search-form {
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
+  flex-direction: column;
+  gap: 20px;
 
-  .input-and-checkboxes {
+  .search-bar-wrapper {
+    border: 1px solid color.scale($color-background-primary, $lightness: -30%);
+    border-radius: 9999px;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: center;
+
+    input[type=text] {
+      border: none;
+      outline: none;
+      padding: 5px 10px;
+      margin-left: 5px;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      color: $color-text;
+      width: 350px;
+      border-radius: 9999px 0 0 9999px;
+    }
+
+    button {
+      background-color: $color-turqoise;
+      border: 1px solid $color-turqoise;
+      color: white;
+      outline: none;
+      padding: 5px 20px;
+      font-size: 16px;
+      border-radius: 0 9999px 9999px 0;
+      height: 36px;
+
+      .search-icon {
+        fill: white;
+      }
+
+      &:not(:disabled):hover {
+        background-color: color.scale($color-turqoise, $lightness: 30%);
+      }
+
+      &:not(:disabled):hover {
+        cursor: pointer;
+      }
+
+      &:disabled {
+        opacity: 0.6;
+        background-color: #cccccc;
+        border-color: #cccccc;
+        color: #666666;
+      }
+    }
   }
 
-  input[type=text] {
-    border: 1px solid color.scale($color-background-primary, $lightness: -30%);
-    outline: none;
-    border-radius: 2px;
-    padding: 5px 10px;
-    font-size: 18px;
-    letter-spacing: 0.5px;
-    color: $color-text;
-    width: 300px;
+  .search-bar-wrapper:focus-within {
+    outline: 1px solid $color-turqoise;
+    outline-offset: -1px;
   }
 
   .engine-checkboxes {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 5px;
+    justify-content: center;
 
-    label {
+   label, input[type=checkbox] {
       cursor: pointer;
       width: fit-content;
-
-      input[type=checkbox] {
-        cursor: pointer;
-      }
-    }
-  }
-
-  input[type=text]:focus {
-    outline: 1px solid $color-turqoise;
-    outline-offset: -1px;
-  }
-
-  button {
-    background-color: $color-turqoise;
-    border: 1px solid $color-turqoise;
-    color: white;
-    outline: none;
-    padding: 5px 20px;
-    font-size: 16px;
-    border-radius: 2px;
-    height: 36px;
-
-    &:not(:disabled):hover {
-      background-color: $color-surface;
-      color: $color-turqoise;
-    }
-
-    &:not(:disabled):hover {
-      cursor: pointer;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      background-color: #cccccc;
-      border-color: #cccccc;
-      color: #666666;
     }
   }
 }

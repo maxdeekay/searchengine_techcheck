@@ -17,20 +17,19 @@ namespace VoyadoSearchEngine.Server.Services
             return _engines.Select(e => e.Name);
         }
 
-        public async Task<EngineResult> SearchAsync(string query, string engine)
+        public ISearchEngine? FindEngine(string name)
         {
-            string[] words = query.Split(" ");
-            var selectedEngine = _engines.FirstOrDefault(e => e.Name == engine);
+            return _engines.FirstOrDefault(e => e.Name == name);
+        }
 
-            if (selectedEngine == null)
-                throw new Exception($"Couldn't find engine: {engine}");
-
-            // Query the engine with every word
-            var searchTasks = words.Select(async word =>
+        public async Task<EngineResult> CountSearchHits(string[] words, ISearchEngine engine)
+        {
+            // Query the engine word for word
+            var tasks = words.Select(async word =>
             {
                 try
                 {
-                    var hits = await selectedEngine.SearchAsync(word);
+                    var hits = await engine.SearchAsync(word);
                     return new { Word = word, Result = new WordResult { Hits = hits } };
                 }
                 catch (Exception ex)
@@ -39,14 +38,14 @@ namespace VoyadoSearchEngine.Server.Services
                 }
             });
 
-            var results = await Task.WhenAll(searchTasks);
+            var results = await Task.WhenAll(tasks);
 
             var wordResults = results.ToDictionary(r => r.Word, r => r.Result);
 
             return new EngineResult
             {
-                Name = engine,
-                TotalHits = wordResults.Sum(w => w.Value.Hits ?? 0),
+                Name = engine.Name,
+                TotalHits = wordResults.Sum(w => w.Value.Hits),
                 WordResults = wordResults
             };
         }

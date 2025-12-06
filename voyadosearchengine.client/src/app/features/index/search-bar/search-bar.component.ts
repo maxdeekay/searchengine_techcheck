@@ -30,6 +30,7 @@ export class SearchBarComponent {
     return (this.form.get("selectedEngines") as FormArray).controls as FormControl[];
   }
 
+  // Would use an Angular validator for a bigger project
   get isFormValid(): boolean {
     const query = this.form.get("query")?.value || "";
     const selectedEnginesArray = this.form.get("selectedEngines") as FormArray;

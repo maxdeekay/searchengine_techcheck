@@ -35,7 +35,7 @@ namespace VoyadoSearchEngine.Server.Engines
                 throw new Exception(errorMessage ?? $"OpenLibrary error: {response.StatusCode}");
             }
       
-            return ParseNumFound(json);
+            return ParseTotalHits(json);
         }
 
         private static string? TryParseError(string jsonContent)
@@ -48,7 +48,7 @@ namespace VoyadoSearchEngine.Server.Engines
                     return errorElement.GetString();
                 }
             }
-            catch (JsonException)
+            catch (Exception)
             {
                 // Ignore parse errors for error responses
             }
@@ -56,7 +56,7 @@ namespace VoyadoSearchEngine.Server.Engines
             return null;
         }
 
-        private static int ParseNumFound(string jsonContent)
+        private static int ParseTotalHits(string jsonContent)
         {
             try
             {
@@ -65,9 +65,9 @@ namespace VoyadoSearchEngine.Server.Engines
                     .GetProperty("numFound")
                     .GetInt32();
             }
-            catch (JsonException ex)
+            catch (Exception ex)
             {
-                throw new FormatException("Failed to parse JSON from OpenLibrary", ex);
+                throw new Exception("Failed to parse number of search hits.", ex);
             }
         }
     }

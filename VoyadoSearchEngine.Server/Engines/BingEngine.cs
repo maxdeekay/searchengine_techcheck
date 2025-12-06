@@ -13,7 +13,10 @@ namespace VoyadoSearchEngine.Server.Engines
 
         public string Name => "Bing";
 
-        // NOTE: This Playwright setup times out and fails about 50% of the time but left it in for display purposes
+        // NOTE:
+        // There's about a 50% risk that this method runs into a CAPTCHA and fails, still left it in for theoretical reasons
+        // Added some example code on how the CAPTCHA could be handled
+        // Bing also doesn't show exact search hits, only rounded numbers
         public async Task<int> SearchAsync(string word)
         {
             if (string.IsNullOrWhiteSpace(word))
@@ -23,16 +26,23 @@ namespace VoyadoSearchEngine.Server.Engines
             
             try
             {
-                // Navigate to Bing search results page and wait until page is fully loaded before continuing
                 await page.GotoAsync(
                     $"https://www.bing.com/search?q={Uri.EscapeDataString(word)}",
-                    new PageGotoOptions { WaitUntil = WaitUntilState.NetworkIdle }
+                    new PageGotoOptions { WaitUntil = WaitUntilState.DOMContentLoaded }
                 );
 
-                var element = page.Locator("span.sb_count");
+                await Task.Delay(500);
 
-                // Wait for element to be visible on the page
-                // Can sometimes timeout because Playwright considers it "not visible" eg. off screen/hidden etc.
+                // Check for CAPTCHA
+                var captchaElement = page.Locator("#turnstile-widget");
+                var captchaCount = await captchaElement.CountAsync();
+
+                if (captchaCount > 0)
+                {
+                    throw new Exception("Request encountered a CAPTCHA and can't continue.");
+                }
+
+                var element = page.Locator("span.sb_count");
                 await element.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
 
                 if (element == null)

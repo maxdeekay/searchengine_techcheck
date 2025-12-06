@@ -1,6 +1,6 @@
 ﻿namespace VoyadoSearchEngine.Server.Models
 {
-    public class EngineResult
+    public record EngineResult
     {
         public required string Name { get; set; }
 

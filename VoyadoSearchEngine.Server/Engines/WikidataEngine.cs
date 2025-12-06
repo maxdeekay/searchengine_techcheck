@@ -25,14 +25,36 @@ namespace VoyadoSearchEngine.Server.Engines
                 throw new Exception("Invalid word format.");
 
             var url = string.Format(SearchUrlTemplate, WebUtility.UrlEncode(word));
-
             using var request = new HttpRequestMessage(HttpMethod.Get, url);
             using var response = await Client.SendAsync(request);
 
-            response.EnsureSuccessStatusCode();
-
             var json = await response.Content.ReadAsStringAsync();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = TryParseError(json);
+                throw new Exception(errorMessage ?? $"Wikidata error: {response.StatusCode}");
+            }
+
             return ParseTotalHits(json);
+        }
+
+        private static string? TryParseError(string jsonContent)
+        {
+            try
+            {
+                using var doc = JsonDocument.Parse(jsonContent);
+                if (doc.RootElement.TryGetProperty("error", out var errorElement))
+                {
+                    return errorElement.GetString();
+                }
+            }
+            catch (Exception)
+            {
+                // Ignore parse errors for error responses
+            }
+
+            return null;
         }
 
         private static int ParseTotalHits(string jsonContent)
@@ -46,9 +68,9 @@ namespace VoyadoSearchEngine.Server.Engines
                     .GetProperty("totalhits")
                     .GetInt32();
             }
-            catch (JsonException ex)
+            catch (Exception ex)
             {
-                throw new FormatException("Failed to parse JSON from Wikidata", ex);
+                throw new Exception("Failed to parse JSON from Wikidata", ex);
             }
         }
     }

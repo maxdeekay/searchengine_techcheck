@@ -11,6 +11,7 @@ import { EngineResult, EngineState } from '../../services/search.models';
 export class IndexComponent implements OnInit {
   engineStates: EngineState[] = [];
   availableEngines: string[] = [];
+  searchMade: boolean = false;
 
   constructor(private searchService: SearchService) { }
 
@@ -27,6 +28,7 @@ export class IndexComponent implements OnInit {
 
   handleSearch(searchData: { query: string; engines: string[] }) {
     const { query, engines } = searchData;
+    this.searchMade = true;
 
     this.engineStates = engines.map(engine => ({
       name: engine,
@@ -40,6 +42,8 @@ export class IndexComponent implements OnInit {
     engines.forEach((engine, index) => {
       this.searchService.search(query, engine).subscribe({
         next: (result: EngineResult) => {
+          console.log("EngineResult: ", result);
+
           const hasErrors = Object.values(result.wordResults).some(wr => wr.errorMessage);
           const allFailed = Object.values(result.wordResults).every(wr => wr.errorMessage);
 
@@ -51,6 +55,8 @@ export class IndexComponent implements OnInit {
           };
         },
         error: (err: Error) => {
+          // Would have different handling/messages depending on what error was thrown in a real project
+
           console.error(`Error fetching results from ${engine}: `, err);
           this.engineStates[index].loading = false;
           this.engineStates[index].hasErrors = true;
