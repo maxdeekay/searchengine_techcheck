@@ -7,7 +7,7 @@ import { SearchRequest, EngineResult } from './search.models';
   providedIn: 'root'
 })
 export class SearchService {
-  private apiUrl = 'https://localhost:7262/api/search';
+  private apiUrl = 'http://localhost:5112/api/search';
 
   constructor(private http: HttpClient) { }
 
