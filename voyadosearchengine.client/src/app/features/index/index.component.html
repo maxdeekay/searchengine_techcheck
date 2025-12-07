@@ -9,7 +9,7 @@
     ></app-search-bar>
 
     <!-- Only because the app will be tested locally -->
-    <div class="api-not-ready" *ngIf="availableEngines.length == 0">The API has not loaded yet - please give it a moment</div>
+    <div class="api-not-ready" *ngIf="availableEngines.length == 0">It takes about 10-20 seconds extra for the API to start Playwright - please give it a moment</div>
   </div>
 
   <div class="card header-card" *ngIf="searchMade">
